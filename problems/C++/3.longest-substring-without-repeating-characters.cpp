@@ -10,12 +10,10 @@ public:
     int lengthOfLongestSubstring(string s) {
 
         int max_len = 0;
-
         int left_ptr = 0;
-
         int s_length = s.length();
-
         unordered_set<char> char_set;
+        
 
         for (int right_ptr = 0; right_ptr < s_length; right_ptr++) {
 
