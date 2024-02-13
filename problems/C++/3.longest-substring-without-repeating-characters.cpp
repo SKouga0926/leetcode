@@ -5,43 +5,45 @@
  */
 
 // @lc code=start
-
-// 1文字ずつ進めて，その文字と前回までの文字じゃなければ進み，最大だった時格納
-
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
 
+        int max_len = 0;
+
+        int left_ptr = 0;
+
         int s_length = s.length();
 
-        int count = 0;
+        unordered_set<char> char_set;
 
-        int max_count = 0;
+        for (int right_ptr = 0; right_ptr < s_length; right_ptr++) {
 
-        for (int i = 0; i < s_length; i++) {
+            if (char_set.count(s[right_ptr]) == 1) {
 
-            // 現在の文字でもない，かつ前回の文字でもない
-            if (s[i] != s[i+1]) {
+                while (true) {
 
-                for (int j = 0; j < i; j++) {
-
-                    if (s[j] != s[i+1]) {
-                        count++;   
+                    if (char_set.count(s[right_ptr]) == 0) {
+                        break;
                     }
+
+                    char_set.erase(s[left_ptr]);
+
+                    left_ptr++;
                 }
+
+                char_set.insert(s[right_ptr]);
             }
 
+            if (char_set.count(s[right_ptr]) == 0) {
 
-            if (max_count < count) {
-                max_count = count;
+                max_len = max(max_len, right_ptr - left_ptr +  1);
+                char_set.insert(s[right_ptr]);
             }
 
-            count = 0;
-            
         }
 
-    
-        return max_count+1;
+        return max_len;
         
     }
 };
